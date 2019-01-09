@@ -11,12 +11,12 @@ import javax.json.JsonObject;
  */
 public class AsteroidParseHelper {
 
-    public static double getDiameter(JsonObject obj) {
+    public double getDiameter(JsonObject obj) {
         return (getDiameter(obj, AppConstants.MAX_ESTIMATED_DIAMETER) +
                 getDiameter(obj, AppConstants.MIN_ESTIMATED_DIAMETER)) / 2;
     }
 
-    public static double getDistance(JsonObject obj) {
+    public double getDistance(JsonObject obj) {
         double distance = 0d;
         JsonArray distanceArray = obj.getJsonArray(AppConstants.CLOSE_APPROACH_DATA);
 
@@ -32,7 +32,7 @@ public class AsteroidParseHelper {
     }
 
 
-    private static double getDiameter(JsonObject obj, String key) {
+    private double getDiameter(JsonObject obj, String key) {
         return obj
                 .getJsonObject(AppConstants.ESTIMATED_DIAMETER)
                 .getJsonObject(AppConstants.KILOMETERS)

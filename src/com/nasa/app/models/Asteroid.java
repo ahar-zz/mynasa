@@ -11,9 +11,12 @@ public class Asteroid {
 
     private double estimatedDiameter = 0;
     private double distanceToEarth = 0;
-    transient JsonObject asteroidJsonObject;
+    private JsonObject asteroidJsonObject;
 
-    public Asteroid() {
+    public Asteroid(double estimatedDiameter, double distanceToEarth, JsonObject asteroidJsonObject) {
+        this.estimatedDiameter = estimatedDiameter;
+        this.distanceToEarth = distanceToEarth;
+        this.asteroidJsonObject = asteroidJsonObject;
     }
 
     public double getEstimatedDiameter() {
@@ -27,17 +30,5 @@ public class Asteroid {
     @Override
     public String toString() {
         return JsonFormatterUtil.getInstance().format(asteroidJsonObject);
-    }
-
-    public void setAsteroidJsonObject(JsonObject asteroidJsonObject) {
-        this.asteroidJsonObject = asteroidJsonObject;
-    }
-
-    public void setEstimatedDiameter(double estimatedDiameter) {
-        this.estimatedDiameter = estimatedDiameter;
-    }
-
-    public void setDistanceToEarth(double distanceToEarth) {
-        this.distanceToEarth = distanceToEarth;
     }
 }
