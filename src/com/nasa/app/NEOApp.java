@@ -1,10 +1,12 @@
 package com.nasa.app;
 
 import com.nasa.app.constants.AppConstants;
+import com.nasa.app.helper.UrlFormatterUtil;
 import com.nasa.app.models.Asteroid;
 import com.nasa.app.models.AsteroidBuilder;
 import com.nasa.app.exceptions.AsteroidParsingException;
 import com.nasa.app.helper.AsteroidParseHelper;
+import com.nasa.app.services.NasaService;
 import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 
 import javax.json.*;
@@ -20,44 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class NEOApp {
-
     private final static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
-    /**
-     * Method to format http query string.
-     *
-     * @param date - date in string format which represents date for request
-     */
-    private static String createURLString(String date) {
-        return String.format("https://api.nasa.gov/neo/rest/v1/feed?start_date=%s&end_date=%s&api_key=DEMO_KEY",
-                date, date);
-    }
-
-    /*
-     *
-     * Retrieves page content and transfer it to bytes for future work
-     *
-     * @param url - url object
-     */
-    private static byte[] getPageContent(URL url) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-        try {
-            byte[] chunk = new byte[4096];
-            int bytesRead;
-            InputStream stream = url.openStream();
-
-            while ((bytesRead = stream.read(chunk)) > 0) {
-                outputStream.write(chunk, 0, bytesRead);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        return outputStream.toByteArray();
-    }
+    private static NasaService nasaService = new NasaService();
 
     /**
      * Method to print out url response.
@@ -127,7 +93,9 @@ public class NEOApp {
 
             JsonObject jsonObject;
 
-            byte[] content = getPageContent(new URL(createURLString(formattedToday)));
+            byte[] content = nasaService.getPageContent(
+                    UrlFormatterUtil.getInstance().createURLString(formattedToday)
+            );
 
             // Print the raw responce.
             printURLResponce(content);
